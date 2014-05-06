@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+<!--
+XML Formatter:
+http://www.freeformatter.com/xml-formatter.html
+with 3 spaces per indent level
+-->
+   <xs:complexType name="includeType">
+      <xs:attribute name="in">
+         <xs:simpleType>
+            <xs:restriction base="xs:string">
+               <xs:enumeration value="apk" />
+               <xs:enumeration value="package" />
+               <xs:enumeration value="path" />
+               <xs:enumeration value="path+package" />
+               <xs:enumeration value="library" />
+            </xs:restriction>
+         </xs:simpleType>
+      </xs:attribute>
+      <xs:attribute name="pattern" type="xs:string" use="required" />
+      <xs:attribute name="regexp" type="xs:boolean" />
+      <xs:attribute name="case-insensitive" type="xs:boolean" />
+   </xs:complexType>
+   <xs:complexType name="apkType">
+      <xs:choice minOccurs="0" maxOccurs="unbounded">
+         <xs:element name="apk">
+            <xs:complexType>
+               <xs:choice minOccurs="0" maxOccurs="unbounded">
+                  <xs:element name="description" type="xs:string" maxOccurs="1" />
+                  <xs:element name="include" type="includeType" />
+                  <xs:element name="exclude">
+                     <xs:complexType>
+                        <xs:complexContent>
+                           <xs:extension base="includeType">
+                              <xs:attribute name="global" type="xs:boolean" />
+                           </xs:extension>
+                        </xs:complexContent>
+                     </xs:complexType>
+                  </xs:element>
+               </xs:choice>
+               <xs:attribute name="name" type="xs:string" />
+               <xs:attribute name="url" type="xs:anyURI" />
+            </xs:complexType>
+         </xs:element>
+      </xs:choice>
+   </xs:complexType>
+   <xs:element name="AndroidUninstallStock">
+      <xs:complexType>
+         <xs:all>
+            <xs:element name="Normal" type="apkType" minOccurs="0" />
+            <xs:element name="Google" type="apkType" minOccurs="0" />
+         </xs:all>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>

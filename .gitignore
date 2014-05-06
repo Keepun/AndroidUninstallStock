@@ -1,0 +1,10 @@
+/trash
+
+.gradle
+gradle-app.setting
+/bin
+/build
+
+/.settings
+.project
+.classpath
